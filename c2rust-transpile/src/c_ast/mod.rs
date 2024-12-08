@@ -1879,6 +1879,7 @@ impl CTypeKind {
 mod tests {
     use super::*;
 
+    #[allow(clippy::needless_range_loop)]
     #[test]
     fn test_compare_src_locs_ord() {
         let ctx = TypedAstContext {
