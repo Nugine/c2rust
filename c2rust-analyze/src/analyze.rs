@@ -1125,6 +1125,7 @@ fn run(tcx: TyCtxt) {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn run2<'tcx>(
     pointwise_fn_ldid: Option<LocalDefId>,
     tcx: TyCtxt<'tcx>,
