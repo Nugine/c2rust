@@ -1223,6 +1223,8 @@ pub enum CastKind {
     BuiltinFnToFnPtr,
     ConstCast,
     VectorSplat,
+    AtomicToNonAtomic,
+    NonAtomicToAtomic,
 }
 
 /// Represents a unary operator in C (6.5.3 Unary operators) and GNU C extensions
@@ -1685,6 +1687,9 @@ pub enum CTypeKind {
     // ARM Scalable Vector Extention types
     // TODO: represent all the individual types in AArch64SVEACLETypes.def
     UnhandledSveType,
+
+    // Atomic types (6.7.2.4)
+    Atomic(CQualTypeId),
 }
 
 impl CTypeKind {

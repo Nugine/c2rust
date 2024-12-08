@@ -4426,6 +4426,8 @@ impl<'c> Translation<'c> {
             CastKind::VectorSplat => Err(TranslationError::generic(
                 "TODO vector splat casts not supported",
             )),
+
+            CastKind::AtomicToNonAtomic | CastKind::NonAtomicToAtomic => Ok(val),
         }
     }
 
@@ -4934,7 +4936,7 @@ impl<'c> Translation<'c> {
             Vector(..) => {
                 // Handled in `import_simd_typedef`
             }
-            TypeOfExpr(_) | BuiltinFn => {}
+            TypeOfExpr(_) | BuiltinFn | Atomic(..) => {}
             UnhandledSveType => {
                 // TODO: handle SVE types
             }
