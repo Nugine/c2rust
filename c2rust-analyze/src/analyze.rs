@@ -878,7 +878,7 @@ fn run(tcx: TyCtxt) {
                 borrowck::borrowck_mir(
                     &acx,
                     &info.dataflow,
-                    &mut asn.perms_mut(),
+                    asn.perms_mut(),
                     &updates_forbidden,
                     name.as_str(),
                     &mir,

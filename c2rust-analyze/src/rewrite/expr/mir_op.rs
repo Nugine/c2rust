@@ -368,8 +368,8 @@ impl<'a, 'tcx> ExprRewriteVisitor<'a, 'tcx> {
         rewrite::ty::rewrite_lty(
             tcx,
             lty,
-            &self.perms,
-            &self.flags,
+            self.perms,
+            self.flags,
             &self.pointee_types,
             &self.acx.gacx.adt_metadata,
         )
@@ -722,7 +722,7 @@ impl<'a, 'tcx> ExprRewriteVisitor<'a, 'tcx> {
                                 .intersects(PermissionSet::OFFSET_ADD | PermissionSet::OFFSET_SUB);
 
                             let opt_zero_ty =
-                                ZeroizeType::from_lty(&v.acx, v.perms, v.flags, pointee_lty);
+                                ZeroizeType::from_lty(v.acx, v.perms, v.flags, pointee_lty);
                             let zero_ty = match opt_zero_ty {
                                 Some(x) => x,
                                 // TODO: emit void* cast before bailing out
