@@ -66,6 +66,7 @@ impl<'tcx> TypeChecker<'tcx, '_> {
         trace!("visit_place_ref({pl:?})");
         let mut lty = self.acx.type_of(pl.local);
         for proj in pl.projection {
+            #[allow(clippy::single_match)]
             match proj {
                 ProjectionElem::Deref => {
                     debug_assert!(matches!(
@@ -174,6 +175,7 @@ impl<'tcx> TypeChecker<'tcx, '_> {
         );
         let _g = panic_detail::set_current_span(stmt.source_info.span);
 
+        #[allow(clippy::single_match)]
         match stmt.kind {
             StatementKind::Assign(ref x) => {
                 let (pl, ref rv) = **x;
@@ -197,6 +199,7 @@ impl<'tcx> TypeChecker<'tcx, '_> {
         let _g = panic_detail::set_current_span(term.source_info.span);
         let tcx = self.acx.tcx();
 
+        #[allow(clippy::single_match)]
         match term.kind {
             TerminatorKind::Call {
                 ref func,

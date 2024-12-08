@@ -530,6 +530,7 @@ fn fn_origin_args_params<'tcx>(
         // gather existing OriginParams
         let mut origin_params = vec![];
         if let TyKind::FnDef(_, substs) = fn_ty.kind() {
+            #[allow(clippy::single_match)]
             for sub in substs.iter() {
                 match sub.unpack() {
                     GenericArgKind::Lifetime(re) => match re.kind() {
