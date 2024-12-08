@@ -649,6 +649,17 @@ impl<'c> Translation<'c> {
                 })
             }
 
+            "_mm_pause" => {
+                // TODO: x86 or x86_64?
+                let func = mk().abs_path_expr(vec!["core", "arch", "x86_64", "_mm_pause"]);
+                let call_expr = mk().call_expr(func, vec![]);
+                self.convert_side_effects_expr(
+                    ctx,
+                    WithStmts::new_val(call_expr),
+                    "Builtin is not supposed to be used",
+                )
+            }
+
             _ => Err(format_translation_err!(
                 self.ast_context.display_loc(src_loc),
                 "Unimplemented builtin {}",
