@@ -1052,6 +1052,7 @@ fn get_operand_place<'tcx>(op: &mir::Operand<'tcx>) -> Option<mir::Place<'tcx>> 
 }
 
 /// Indicate whether a given MIR statement should be considered when building the unlowering map.
+#[allow(clippy::match_like_matches_macro)]
 fn filter_stmt(stmt: &mir::Statement) -> bool {
     match stmt.kind {
         // Ignore `AscribeUserType` annotations.  These appear in the middle of some expressions.
