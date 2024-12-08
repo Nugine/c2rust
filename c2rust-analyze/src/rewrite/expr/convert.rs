@@ -815,11 +815,11 @@ fn generate_zeroize_expr(zero_ty: &ZeroizeType) -> String {
         ),
         ZeroizeType::Struct(ref name, ref fields) => {
             let mut s = String::new();
-            write!(s, "{} {{\n", name).unwrap();
+            writeln!(s, "{} {{", name).unwrap();
             for (name, field_zero_ty) in fields {
-                write!(s, "{}: {},\n", name, generate_zeroize_expr(field_zero_ty),).unwrap();
+                writeln!(s, "{}: {},", name, generate_zeroize_expr(field_zero_ty),).unwrap();
             }
-            write!(s, "}}\n").unwrap();
+            writeln!(s, "}}").unwrap();
             s
         }
     }
