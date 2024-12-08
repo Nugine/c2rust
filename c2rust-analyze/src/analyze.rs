@@ -1074,13 +1074,13 @@ fn run(tcx: TyCtxt) {
                     continue;
                 }
                 ann.emit(span, format_args!("typeof({:?}) = {}", local, ty_str));
-                if static_non_null_ptrs.len() > 0 {
+                if !static_non_null_ptrs.is_empty() {
                     ann.emit(
                         span,
                         format_args!("  static NON_NULL: {:?}", static_non_null_ptrs),
                     );
                 }
-                if dynamic_non_null_ptrs.len() > 0 {
+                if !dynamic_non_null_ptrs.is_empty() {
                     ann.emit(
                         span,
                         format_args!("  dynamic NON_NULL: {:?}", dynamic_non_null_ptrs),

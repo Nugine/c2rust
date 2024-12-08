@@ -1110,7 +1110,7 @@ impl<'a, 'tcx> ExprRewriteVisitor<'a, 'tcx> {
 
         // TODO: downgrade Move to Imm if the new type is Copy
 
-        debug_assert!(pl.projection.len() >= 1);
+        debug_assert!(!pl.projection.is_empty());
         // `LTy` of the base place, before the last projection.
         let base_lty = proj_ltys[pl.projection.len() - 1];
         // `LTy` resulting from applying `last_proj` to `base_lty`.
