@@ -2951,6 +2951,12 @@ impl<'c> Translation<'c> {
         }
 
         let pointee = match self.ast_context.resolve_type(type_id).kind {
+            CTypeKind::Atomic(CQualTypeId { ctype, .. }) => {
+                match self.ast_context.resolve_type(ctype).kind {
+                    CTypeKind::Pointer(pointee) => pointee,
+                    _ => return Err(TranslationError::generic("null_ptr requires a pointer")),
+                }
+            }
             CTypeKind::Pointer(pointee) => pointee,
             _ => return Err(TranslationError::generic("null_ptr requires a pointer")),
         };
