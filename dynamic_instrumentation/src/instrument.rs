@@ -6,7 +6,6 @@ use fs2::FileExt;
 use fs_err::OpenOptions;
 use indexmap::IndexSet;
 use log::{debug, trace};
-use rand;
 use rustc_ast::Mutability;
 use rustc_index::vec::Idx;
 use rustc_middle::mir::visit::{
