@@ -126,17 +126,19 @@ impl<'tcx> TypeChecker<'tcx, '_> {
                         {
                             let field_lifetime_param = OriginParam::try_from(field_lifetime_arg).ok();
 
-                            field_lifetime_param.and_then(|field_lifetime_param| {
+                            let param = field_lifetime_param.and_then(|field_lifetime_param| {
                                 base_origin_param_map.get_key_value(&field_lifetime_param)
-                            }).map(|(base_lifetime_param, og)| {
+                            });
+
+                            if let Some((base_lifetime_param, og)) = param {
                                 debug!(
                                     "mapping {base_adt_def:?} lifetime parameter {base_lifetime_param:?} to \
                                     {base_adt_def:?}.{:} struct definition lifetime parameter {field_struct_lifetime_param:?}, \
                                     corresponding to its lifetime parameter {field_lifetime_param:?} within {base_adt_def:?}",
                                     field_def.name
                                 );
-                            field_origin_param_map.push((*field_struct_lifetime_param, *og));
-                            });
+                                field_origin_param_map.push((*field_struct_lifetime_param, *og));
+                            }
                         }
 
                         let origin_params= self.ltcx.arena().alloc_from_iter(field_origin_param_map.into_iter());
