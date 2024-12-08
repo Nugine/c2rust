@@ -146,7 +146,7 @@ impl<'c> Translation<'c> {
 
             // NOTE: there is no corresponding __atomic_init builtin in clang
             "__c11_atomic_init" => {
-                let val = val1.expect(&format!("__atomic_init must have a val argument"));
+                let val = val1.expect("__atomic_init must have a val argument");
                 ptr.and_then(|ptr| {
                     val.and_then(|val| {
                         let assignment = mk().assign_expr(
@@ -209,7 +209,8 @@ impl<'c> Translation<'c> {
 
             "__atomic_compare_exchange"
             | "__atomic_compare_exchange_n"
-            | "__c11_atomic_compare_exchange_strong" => {
+            | "__c11_atomic_compare_exchange_strong"
+            | "__c11_atomic_compare_exchange_weak" => {
                 // TODO(perl): __c11_atomic_compare_exchange_strong does not
                 // seem to produce correct code. It produces a deref operation
                 // on the `src` argument to atomic_cxchg_seqcst_seqcst.
@@ -259,11 +260,11 @@ impl<'c> Translation<'c> {
                             self.use_feature("core_intrinsics");
                             let expected =
                                 mk().unary_expr(UnOp::Deref(Default::default()), expected);
-                            let desired = if name == "__atomic_compare_exchange_n" {
-                                desired
-                            } else {
-                                mk().unary_expr(UnOp::Deref(Default::default()), desired)
-                            };
+                            // let desired = if name == "__atomic_compare_exchange_n" {
+                            //     desired
+                            // } else {
+                            //     mk().unary_expr(UnOp::Deref(Default::default()), desired)
+                            // };
 
                             let atomic_cxchg =
                                 mk().abs_path_expr(vec!["core", "intrinsics", &intrinsic_name]);
@@ -325,7 +326,8 @@ impl<'c> Translation<'c> {
                 let intrinsic_suffix = order_name(static_order(order));
                 let intrinsic_name = format!("{intrinsic_name}_{intrinsic_suffix}");
 
-                let fetch_first = name.starts_with("__atomic_fetch") || name.starts_with("__c11_atomic_fetch");
+                let fetch_first =
+                    name.starts_with("__atomic_fetch") || name.starts_with("__c11_atomic_fetch");
                 let val = val1.expect("__atomic arithmetic operations must have a val argument");
                 ptr.and_then(|ptr| {
                     val.and_then(|val| {
