@@ -806,9 +806,9 @@ fn generate_zeroize_code(zero_ty: &ZeroizeType, lv: &str) -> String {
 /// Generate an expression to produce a zeroized version of a value.
 fn generate_zeroize_expr(zero_ty: &ZeroizeType) -> String {
     match *zero_ty {
-        ZeroizeType::Int => format!("0"),
-        ZeroizeType::Bool => format!("false"),
-        ZeroizeType::Option => format!("None"),
+        ZeroizeType::Int => "0".to_owned(),
+        ZeroizeType::Bool => "false".to_owned(),
+        ZeroizeType::Option => "None".to_owned(),
         ZeroizeType::Array(ref elem_zero_ty) => format!(
             "std::array::from_fn(|| {})",
             generate_zeroize_expr(elem_zero_ty)
